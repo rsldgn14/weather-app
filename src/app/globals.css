@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
+@font-face {
+  font-family: "Oswald";
+  src: url("./fonts/Inter-VariableFont_opsz\,wght.ttf");
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -14,10 +22,15 @@
   }
 }
 
+*{
+  padding: 0;
+  margin: 0;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, sans-serif;
 }
 
 @layer utilities {
