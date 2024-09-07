@@ -1,7 +1,6 @@
 import { WeatherData } from "@/data/weather";
-import { ReactNode, useCallback } from "react";
+import { useCallback } from "react";
 
-// Column yapısını sabit tutuyoruz. Title her zaman string olacak.
 export type Column = {
   title: string;
   key?: string;
@@ -22,12 +21,10 @@ export default function Table<T>({
   title,
   onSelect,
 }: TableProps) {
-
-
   const renderInfo = useCallback((data: string, key: number) => {
     return (
       <td
-        className="px-5 border-b-[1px] border-l-[1px] text-center py-[26px]"
+        className="px-5  cursor-pointer text-sm font-normal text-[#252F4A] border-l-[1px]  py-[26px]"
         key={key}
       >
         {data}
@@ -36,14 +33,16 @@ export default function Table<T>({
   }, []);
 
   return (
-    <div className="rounded-xl border-[#DBDFE9] border-[1px] shadow-defaultShadow">
-      <h1 className="p-[25px]">{title}</h1>
-      <table className="border-collapse">
+    <div className="rounded-xl border-[#DBDFE9] border-[1px] shadow-defaultShadow overflow-hidden">
+      <h1 className="p-[25px] text-[#071437] font-semibold text-[16px]">
+        {title}
+      </h1>
+      <table className="border-collapse w-full">
         <thead>
           <tr className="border-b-[1px]">
-            {columns.map((col,index) => (
+            {columns.map((col, index) => (
               <th
-                className="px-5 border-l-[1px] border-t-[1px] border-b-[1px] bg-[#F1F1F4] text-center py-4"
+                className="px-5 font-normal text-[13px]  text-left text-[#4B5675] border-l-[1px] border-t-[1px] border-b-[1px] bg-[#F1F1F4] py-4"
                 key={index + 99}
               >
                 {col.title}
@@ -53,7 +52,11 @@ export default function Table<T>({
         </thead>
         <tbody>
           {data.map((row, index) => (
-            <tr onClick={() => onSelect(row.datetime)} key={index}>
+            <tr
+              className="border-b-[1px]"
+              onClick={() => onSelect(row.datetime)}
+              key={index}
+            >
               {columns.map((col, index) => {
                 if (col.render) {
                   return renderInfo(

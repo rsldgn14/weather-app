@@ -9,43 +9,58 @@ import {
   Dispatch,
   SetStateAction,
   useCallback,
+  useContext,
   useEffect,
   useState,
 } from "react";
 import SelectedWeather from "@/components/InfoArea/SelectedWeather";
+import { LoadingContext } from "@/contexts/LoadingContext";
 
 interface Props {
+  setImage: (notFound: boolean) => void;
   setWeather: Dispatch<SetStateAction<WeatherResponse | undefined>>;
   selectedWeather?: WeatherData;
 }
 
 export default function Selection(props: Props) {
-  const { setWeather, selectedWeather } = props;
+  const { setWeather, selectedWeather, setImage } = props;
   const [city, setCity] = useState<string>("");
-  const dCity = useDebounce(city, 1000);
+  const dCity = useDebounce(city, 500);
   const [showNotFound, setShowNotFound] = useState<boolean>(false);
+  const [responceCity, setResponceCity] = useState<string | undefined>();
+
+  const loadingCtx = useContext(LoadingContext);
 
   const handleCity = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.value) {
+      setWeather(undefined);
+      setShowNotFound(false);
+      setImage(false);
+    }
     setCity(e.target.value);
   }, []);
 
   useEffect(() => {
-    if (dCity) {
+    if (dCity && dCity !== "") {
+      loadingCtx?.setLoading(true);
       getWeather(dCity).then((resp) => {
+        loadingCtx?.setLoading(false);
         if (resp.error) {
-          console.error(resp.error);
           setShowNotFound(true);
           setWeather(undefined);
+          setResponceCity(undefined);
+          setImage(true);
           return;
         }
         setWeather(resp.body ?? undefined);
+        setResponceCity(resp.body?.city_name);
         setShowNotFound(false);
+        setImage(false);
       });
     }
   }, [dCity]);
 
   return (
-    //TO-DO gap yemiyor
     <div style={{ gap: "24px" }} className="flex flex-col">
       <Input
         value={city}
@@ -55,7 +70,10 @@ export default function Selection(props: Props) {
       />
 
       {!showNotFound && city && selectedWeather ? (
-        <SelectedWeather weather={selectedWeather} cityName={city} />
+        <SelectedWeather
+          weather={selectedWeather}
+          cityName={responceCity ?? ""}
+        />
       ) : !showNotFound ? (
         <PlaceHolder
           title="Select a City"
@@ -63,8 +81,8 @@ export default function Selection(props: Props) {
         />
       ) : (
         <PlaceHolder
-          title="City Not Found"
-          description="City not Found"
+          title="Does not Exist"
+          description="Type a valid city name to get weekly forecast data."
         />
       )}
     </div>
