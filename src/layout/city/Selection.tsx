@@ -15,6 +15,10 @@ import {
 } from "react";
 import SelectedWeather from "@/components/InfoArea/SelectedWeather";
 import { LoadingContext } from "@/contexts/LoadingContext";
+import {
+  getCacheFromLocalStorage,
+  updateLocalStorageCache,
+} from "@/utils/storage";
 
 interface Props {
   setImage: (notFound: boolean) => void;
@@ -31,34 +35,54 @@ export default function Selection(props: Props) {
 
   const loadingCtx = useContext(LoadingContext);
 
-  const handleCity = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.value) {
-      setWeather(undefined);
-      setShowNotFound(false);
-      setImage(false);
-    }
-    setCity(e.target.value);
-  }, [setImage,setWeather]);
+  const handleCity = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.value) {
+        setWeather(undefined);
+        setShowNotFound(false);
+        setImage(false);
+      }
+      setCity(e.target.value);
+    },
+    [setImage, setWeather]
+  );
+
+  const resetDatas = useCallback(() => {
+    setShowNotFound(true);
+    setWeather(undefined);
+    setResponceCity(undefined);
+    setImage(true);
+  }, []);
+
+  const setDatas = useCallback((body: WeatherResponse | null) => {
+    setWeather(body ?? undefined);
+    setResponceCity(body?.city_name);
+    setShowNotFound(false);
+    setImage(false);
+  }, []);
 
   useEffect(() => {
     if (dCity && dCity !== "") {
+      const cache = getCacheFromLocalStorage<WeatherResponse>();
+
+      if (cache[dCity]) {
+        setDatas(cache[city]);
+        return;
+      }
+
       loadingCtx?.setLoading(true);
       getWeather(dCity).then((resp) => {
         loadingCtx?.setLoading(false);
         if (resp.error) {
-          setShowNotFound(true);
-          setWeather(undefined);
-          setResponceCity(undefined);
-          setImage(true);
+          resetDatas();
           return;
         }
-        setWeather(resp.body ?? undefined);
-        setResponceCity(resp.body?.city_name);
-        setShowNotFound(false);
-        setImage(false);
+        setDatas(resp.body);
+        const updatedCache = { ...cache, [resp.body?.city_name!]: resp.body };
+        updateLocalStorageCache(updatedCache);
       });
     }
-  }, [dCity,loadingCtx,setImage,setWeather]);
+  }, [dCity, setImage, setWeather]);
 
   return (
     <div style={{ gap: "24px" }} className="flex flex-col lg:max-w-[360px] ">
