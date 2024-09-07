@@ -55,14 +55,17 @@ export default function Selection(props: Props) {
     setWeather(undefined);
     setResponceCity(undefined);
     setImage(true);
-  }, []);
+  }, [setImage, setWeather]);
 
-  const setDatas = useCallback((body: WeatherResponse | null) => {
-    setWeather(body ?? undefined);
-    setResponceCity(body?.city_name);
-    setShowNotFound(false);
-    setImage(false);
-  }, []);
+  const setDatas = useCallback(
+    (body: WeatherResponse | null) => {
+      setWeather(body ?? undefined);
+      setResponceCity(body?.city_name);
+      setShowNotFound(false);
+      setImage(false);
+    },
+    [setImage, setWeather]
+  );
 
   useEffect(() => {
     if (dCity && dCity !== "") {
@@ -82,14 +85,16 @@ export default function Selection(props: Props) {
           return;
         }
         setDatas(resp.body);
-        const updatedCache = {
-          ...cache,
-          [resp.body?.city_name?.toLocaleLowerCase()!]: resp.body,
-        };
-        updateLocalStorageCache(updatedCache);
+        if (resp.body) {
+          const updatedCache = {
+            ...cache,
+            [resp.body?.city_name?.toLocaleLowerCase()]: resp.body,
+          };
+          updateLocalStorageCache(updatedCache);
+        }
       });
     }
-  }, [dCity, setImage, setWeather]);
+  }, [dCity, setImage, setWeather, resetDatas, setDatas]);
 
   return (
     <div style={{ gap: "24px" }} className="flex flex-col lg:max-w-[360px] ">
