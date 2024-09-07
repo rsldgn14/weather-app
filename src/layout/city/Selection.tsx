@@ -26,13 +26,17 @@ interface Props {
   selectedWeather?: WeatherData;
 }
 
+
 export default function Selection(props: Props) {
   const { setWeather, selectedWeather, setImage } = props;
   const [city, setCity] = useState<string>("");
-  const dCity = useDebounce(city, 500);
   const [showNotFound, setShowNotFound] = useState<boolean>(false);
   const [responceCity, setResponceCity] = useState<string | undefined>();
 
+  //send request after 500ms for unnecessary requests
+  const dCity = useDebounce(city, 500);
+
+  //loading context for display loading
   const loadingCtx = useContext(LoadingContext);
 
   const handleCity = useCallback(
@@ -44,7 +48,7 @@ export default function Selection(props: Props) {
       }
       setCity(e.target.value);
     },
-    [setImage, setWeather]
+    [setImage, setWeather,setCity]
   );
 
   const resetDatas = useCallback(() => {
@@ -64,7 +68,8 @@ export default function Selection(props: Props) {
   useEffect(() => {
     if (dCity && dCity !== "") {
       const cache = getCacheFromLocalStorage<WeatherResponse>();
-
+      
+      //get cache data if exists.
       if (cache[dCity]) {
         setDatas(cache[city]);
         return;
@@ -73,6 +78,7 @@ export default function Selection(props: Props) {
       loadingCtx?.setLoading(true);
       getWeather(dCity).then((resp) => {
         loadingCtx?.setLoading(false);
+        
         if (resp.error) {
           resetDatas();
           return;

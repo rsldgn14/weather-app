@@ -4,12 +4,14 @@ function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {
-    // Yeni bir değer için delay başlat
+    if (value === "" && typeof value === "string") {
+      setDebouncedValue(value);
+      return;
+    }
     const handler = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
 
-    // Bir sonraki değer için timeout'u temizle
     return () => {
       clearTimeout(handler);
     };
