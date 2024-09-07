@@ -1,3 +1,4 @@
+import { UNIT } from "@/data/api";
 import dayjs from "dayjs";
 
 export function renderDateTime(d: string | number): string {
@@ -8,7 +9,7 @@ export function renderDateTime(d: string | number): string {
 
 export function renderTempature(tempature: string | number): string {
   if (typeof tempature === "number") {
-    return `${tempature.toFixed()} °C`;
+    return `${tempature.toFixed()} ${UNIT?.Symbols.Tempature}`;
   }
 
   return "";

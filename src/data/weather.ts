@@ -1,13 +1,12 @@
-import { API_KEY, BASE_URL, DAYS } from "./api";
+import { API_KEY, BASE_URL, COUNTRY, DAYS, UNIT } from "./api";
 import { request } from "./requestHelper";
-
 
 export interface WeatherData {
   app_max_temp: number;
   app_min_temp: number;
   clouds: number;
   datetime: string;
-  temp:number;
+  temp: number;
   high_temp: number;
   low_temp: number;
   weather: Weather;
@@ -26,7 +25,8 @@ export interface Weather {
 
 
 
-
 export async function getWeather(cityName: string) {
-  return await request<WeatherResponse>(`${BASE_URL}?city=${cityName}&key=${API_KEY}&days=${DAYS}`);
+  return await request<WeatherResponse>(
+    `${BASE_URL}?city=${cityName}&country=${COUNTRY}&key=${API_KEY}&days=${DAYS}&units=${UNIT?.Name}`
+  );
 }
