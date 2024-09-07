@@ -26,7 +26,6 @@ interface Props {
   selectedWeather?: WeatherData;
 }
 
-
 export default function Selection(props: Props) {
   const { setWeather, selectedWeather, setImage } = props;
   const [city, setCity] = useState<string>("");
@@ -48,7 +47,7 @@ export default function Selection(props: Props) {
       }
       setCity(e.target.value);
     },
-    [setImage, setWeather,setCity]
+    [setImage, setWeather, setCity]
   );
 
   const resetDatas = useCallback(() => {
@@ -68,10 +67,8 @@ export default function Selection(props: Props) {
   useEffect(() => {
     if (dCity && dCity !== "") {
       const cache = getCacheFromLocalStorage<WeatherResponse>();
-      console.log(cache)
       //get cache data if exists.
       if (cache[dCity.toLocaleLowerCase("tr-TR")]) {
-        
         setDatas(cache[dCity.toLocaleLowerCase("tr-TR")]);
         return;
       }
@@ -79,13 +76,16 @@ export default function Selection(props: Props) {
       loadingCtx?.setLoading(true);
       getWeather(dCity).then((resp) => {
         loadingCtx?.setLoading(false);
-        
+
         if (resp.error) {
           resetDatas();
           return;
         }
         setDatas(resp.body);
-        const updatedCache = { ...cache, [resp.body?.city_name?.toLocaleLowerCase()!]: resp.body };
+        const updatedCache = {
+          ...cache,
+          [resp.body?.city_name?.toLocaleLowerCase()!]: resp.body,
+        };
         updateLocalStorageCache(updatedCache);
       });
     }
