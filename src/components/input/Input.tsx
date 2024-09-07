@@ -1,17 +1,16 @@
 "use client";
 import Image from "next/image";
-import { ChangeEvent, ReactNode } from "react";
+import { ChangeEvent } from "react";
 
 interface Props {
   value: string;
   placeholder?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   name: string;
-  icon?: ReactNode;
 }
 
 export default function Input(props: Props) {
-  const { value, placeholder, onChange, name, icon } = props;
+  const { value, placeholder, onChange, name } = props;
 
   return (
     <div className="relative shadow-defaultShadow  w-full">

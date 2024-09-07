@@ -1,13 +1,15 @@
 import dayjs from "dayjs";
 
-export function renderDateTime(dateStr: string): string {
-    const date = dayjs(dateStr);
-  
-    return date.format("MMMM DD, YYYY");
-  }
-  
+export function renderDateTime(d: string | number): string {
+  const date = dayjs(d);
 
-export function renderTempature(tempature:number):string {
-    return `${tempature.toFixed()} °C`
-    
+  return date.format("MMMM DD, YYYY");
+}
+
+export function renderTempature(tempature: string | number): string {
+  if (typeof tempature === "number") {
+    return `${tempature.toFixed()} °C`;
+  }
+
+  return "";
 }

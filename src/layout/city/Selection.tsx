@@ -38,7 +38,7 @@ export default function Selection(props: Props) {
       setImage(false);
     }
     setCity(e.target.value);
-  }, []);
+  }, [setImage,setWeather]);
 
   useEffect(() => {
     if (dCity && dCity !== "") {
@@ -58,7 +58,7 @@ export default function Selection(props: Props) {
         setImage(false);
       });
     }
-  }, [dCity]);
+  }, [dCity,loadingCtx,setImage,setWeather]);
 
   return (
     <div style={{ gap: "24px" }} className="flex flex-col lg:max-w-[360px] ">

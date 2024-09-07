@@ -66,7 +66,7 @@ const columns: Column[] = [
   {
     title: "Days",
     key: "datetime",
-    render: (value: string) => getDayName(value, "EN"),
+    render: (value: string | number) => getDayName(value, "EN"),
   },
   {
     title: "Dates",

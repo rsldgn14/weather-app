@@ -5,7 +5,7 @@ export type Column = {
   title: string;
   key?: string;
   isSelected?: boolean;
-  render?: (value: any) => string;
+  render?: (value: string | number) => string;
 };
 
 export type TableProps = {
@@ -15,7 +15,7 @@ export type TableProps = {
   onSelect: (date: string) => void;
 };
 
-export default function Table<T>({
+export default function Table({
   columns,
   data,
   title,
