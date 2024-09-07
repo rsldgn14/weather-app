@@ -11,7 +11,7 @@ export const COUNTRY: string = "TR";
 export interface Symbols {
   Tempature: string;
   Speed: string;
-  length: string;
+  Length: string;
 }
 
 export enum UNITS {
@@ -33,7 +33,7 @@ export const UNIT_ARRAY: UNIT[] = [
     Symbols: {
       Tempature: "°C",
       Speed: "m/s",
-      length: "mm",
+      Length: "mm",
     },
   },
   {
@@ -42,7 +42,7 @@ export const UNIT_ARRAY: UNIT[] = [
     Symbols: {
       Tempature: "Kelvin",
       Speed: "m/s",
-      length: "mm",
+      Length: "mm",
     },
   },
   {
@@ -51,7 +51,7 @@ export const UNIT_ARRAY: UNIT[] = [
     Symbols: {
       Tempature: "°F",
       Speed: "mph",
-      length: "in",
+      Length: "in",
     },
   },
 ];
