@@ -20,7 +20,6 @@ export default function SelectedWeather(props: Props) {
       <div className="flex flex-col gap-[10px] items-center">
         <h2 className="font-bold text-[32px]">{cityName}</h2>
         <p className="text-[16px] font-normal">
-          {" "}
           {renderDateTime(weather.datetime)}
         </p>
       </div>
