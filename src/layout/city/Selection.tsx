@@ -61,7 +61,7 @@ export default function Selection(props: Props) {
   }, [dCity]);
 
   return (
-    <div style={{ gap: "24px" }} className="flex flex-col">
+    <div style={{ gap: "24px" }} className="flex flex-col lg:max-w-[360px] ">
       <Input
         value={city}
         placeholder="Search a City"

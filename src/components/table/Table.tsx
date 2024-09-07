@@ -33,11 +33,11 @@ export default function Table<T>({
   }, []);
 
   return (
-    <div className="rounded-xl border-[#DBDFE9] border-[1px] shadow-defaultShadow overflow-hidden">
+    <div className="rounded-xl border-[#DBDFE9] border-[1px] shadow-defaultShadow overflow-hidden overflow-x-auto">
       <h1 className="p-[25px] text-[#071437] font-semibold text-[16px]">
         {title}
       </h1>
-      <table className="border-collapse w-full">
+      <table className="w-full">
         <thead>
           <tr className="border-b-[1px]">
             {columns.map((col, index) => (
