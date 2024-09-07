@@ -68,10 +68,11 @@ export default function Selection(props: Props) {
   useEffect(() => {
     if (dCity && dCity !== "") {
       const cache = getCacheFromLocalStorage<WeatherResponse>();
-      
+      console.log(cache)
       //get cache data if exists.
-      if (cache[dCity]) {
-        setDatas(cache[city]);
+      if (cache[dCity.toLocaleLowerCase("tr-TR")]) {
+        
+        setDatas(cache[dCity.toLocaleLowerCase("tr-TR")]);
         return;
       }
 
@@ -84,7 +85,7 @@ export default function Selection(props: Props) {
           return;
         }
         setDatas(resp.body);
-        const updatedCache = { ...cache, [resp.body?.city_name!]: resp.body };
+        const updatedCache = { ...cache, [resp.body?.city_name?.toLocaleLowerCase()!]: resp.body };
         updateLocalStorageCache(updatedCache);
       });
     }
