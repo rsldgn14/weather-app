@@ -54,6 +54,7 @@ export default function Main() {
 
         <Selection
           setImage={handleNotFound}
+          setSelectedWeather={setSelectedWeather}
           selectedWeather={selectedWeather ?? weathers?.data[0]}
           setWeather={setWeathers}
         />

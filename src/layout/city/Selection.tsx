@@ -24,10 +24,11 @@ interface Props {
   setImage: (notFound: boolean) => void;
   setWeather: Dispatch<SetStateAction<WeatherResponse | undefined>>;
   selectedWeather?: WeatherData;
+  setSelectedWeather:Dispatch<SetStateAction<WeatherData | undefined>>;
 }
 
 export default function Selection(props: Props) {
-  const { setWeather, selectedWeather, setImage } = props;
+  const { setWeather, selectedWeather, setImage ,setSelectedWeather} = props;
   const [city, setCity] = useState<string>("");
   const [showNotFound, setShowNotFound] = useState<boolean>(false);
   const [responceCity, setResponceCity] = useState<string | undefined>();
@@ -44,6 +45,7 @@ export default function Selection(props: Props) {
         setWeather(undefined);
         setShowNotFound(false);
         setImage(false);
+        setSelectedWeather(undefined)
       }
       setCity(e.target.value);
     },
